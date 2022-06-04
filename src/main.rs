@@ -1,11 +1,13 @@
 use rocket::fs::FileServer;
+use rocket::fs::NamedFile;
+use std::path::Path;
 
 #[macro_use]
 extern crate rocket;
 
 #[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+async fn index() -> Option<NamedFile> {
+    NamedFile::open(Path::new("static/index.html")).await.ok()
 }
 
 #[get("/hello/<name>")]
