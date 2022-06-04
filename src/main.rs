@@ -1,3 +1,5 @@
+use rocket::fs::FileServer;
+
 #[macro_use]
 extern crate rocket;
 
@@ -13,5 +15,7 @@ fn hello(name: &str) -> String {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index, hello])
+    rocket::build()
+        .mount("/", routes![index, hello])
+        .mount("/public", FileServer::from("static/"))
 }
